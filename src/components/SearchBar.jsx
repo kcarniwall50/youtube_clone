@@ -11,7 +11,7 @@ const SearchBar = () => {
   const onhandleSubmit = (e) => {
     e.preventDefault();
     if (searchTerm) {
-      setSearchTerm("");
+      // setSearchTerm("");
       navigate(`/search/${searchTerm}`);
     }
   };
@@ -22,7 +22,7 @@ const SearchBar = () => {
       component="form"
       onSubmit={onhandleSubmit}
       sx={{
-        pl: 2,
+        pl: 3,
         borderRadius: 20,
         mr: { xs: 2.2, sm: 8 },
         border: "1px solid #282727",

@@ -27,7 +27,7 @@ const Navbar = () => {
       }}
     >
       <Link to="/" style={{ display: "flex", alignItems: "center" }}>
-        <YouTubeIcon fontSize="large" sx={{ color: "blue" }} />
+        <YouTubeIcon  sx={{ color: "blue", fontSize:'3.3rem' }} />
       </Link>
       <SearchBar />
     </Stack>

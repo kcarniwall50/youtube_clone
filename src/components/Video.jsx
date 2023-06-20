@@ -75,7 +75,7 @@ const Video = ({isLoading, videos, channelTitle }) => {
           lg: "auto auto auto auto",
           xl: "auto auto auto auto auto",
         },
-        mt: { xs: "1rem" },
+        mt: "4rem",
 
         flexWrap: "wrap",
       }}

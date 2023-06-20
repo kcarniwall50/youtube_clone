@@ -42,7 +42,7 @@ const ChannelDetail = () => {
         if (error.response.status === 429) {
           toast.error("Api calling limit exceeded 😔");
         }
-        console.error(error);
+        console.log(error);
       }
     }
 
@@ -71,7 +71,7 @@ const ChannelDetail = () => {
         if (error.response.status === 429) {
           toast.error("Api calling limit exceeded 😔");
         }
-        console.error(error);
+        console.log(error);
       }
     }
 

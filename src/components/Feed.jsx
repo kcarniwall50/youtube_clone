@@ -39,7 +39,7 @@ const Feed = () => {
         if (error.response.status === 429) {
           toast.error("Api calling limit exceeded 😔");
         }
-        console.error(error);
+        console.log(error);
       }
     }
 
