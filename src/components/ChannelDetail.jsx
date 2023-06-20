@@ -4,13 +4,16 @@ import { useParams } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Video from "./Video";
 import { toast } from "react-toastify";
+import Loader from "../utils/Loader/Loader";
 
 const ChannelDetail = () => {
+  console.log("rendered")
   const [channelDetail, setChannelDetail] = useState(null);
   const [channelVideos, setChannelVideos] = useState([]);
   const { id } = useParams();
 
   const url = process.env.REACT_APP_URL;
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     async function getChannelDetails() {
@@ -29,9 +32,13 @@ const ChannelDetail = () => {
       };
 
       try {
+        setIsLoading(true)
         const response = await axios.request(options);
+        setIsLoading(false)
+        console.log(response.data)
         setChannelDetail(response.data);
       } catch (error) {
+        setIsLoading(false)
         if (error.response.status === 429) {
           toast.error("Api calling limit exceeded 😔");
         }
@@ -55,9 +62,12 @@ const ChannelDetail = () => {
       };
 
       try {
+        setIsLoading(true)
         const response = await axios.request(options);
+        setIsLoading(false)
         setChannelVideos(response.data.contents);
       } catch (error) {
+        setIsLoading(false)
         if (error.response.status === 429) {
           toast.error("Api calling limit exceeded 😔");
         }
@@ -70,12 +80,14 @@ const ChannelDetail = () => {
   }, [id]);
 
   return (
-    <div style={{ padding: "0.2rem" }}>
+    <>
+    {isLoading && <Loader/>}
+    <div style={{ padding: "0.2rem",  }}>
       {/* channel banner */}
-      <div>
+      <div  style={{height:'100%', marginTop:'4rem'}} >
         <img
           src={channelDetail?.banner?.mobile[1]?.url}
-          style={{ width: "99vw", paddingInline: "0px" }}
+          style={{ width: "99vw" , paddingInline: "0px", height:'175px',  }}
         />
       </div>
 
@@ -91,15 +103,15 @@ const ChannelDetail = () => {
           width: "100%",
         }}
       >
-        <div>
+        <div  style={{}} >
           <img
             src={channelDetail?.avatar[1]?.url}
-            style={{ borderRadius: "50%" }}
+            style={{ borderRadius: "50%", }}
           />
         </div>
         <div>
           <div
-            style={{ display: "flex", alignItems: "center", color: "#677381" }}
+            style={{ display: "flex", alignItems: "center", justifyContent:'center', color: "#677381" }}
           >
             {" "}
             <span>{channelDetail?.title}</span>&nbsp;
@@ -109,11 +121,13 @@ const ChannelDetail = () => {
             style={{
               width: "100%",
               display: "inline-flex",
+              flexWrap:'wrap',
               alignItems: "center",
-              justifyContent: "space-between",
-              gap: "10%",
+              justifyContent: "space-around",
+              gap: "5%",
               color: "#82A0AA",
               fontSize: "15px",
+              // marginInline:'0.3rem'
             }}
           >
             {" "}
@@ -126,8 +140,9 @@ const ChannelDetail = () => {
       </div>
 
       {/* //channel  videos */}
-      {channelVideos?.length > 0 && <Video videos={channelVideos} />}
+      {channelVideos?.length > 0 && <Video videos={channelVideos}  channelTitle={channelDetail?.title} />}
     </div>
+    </>
   );
 };
 

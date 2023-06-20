@@ -10,6 +10,7 @@ const Feed = () => {
   const [selectedCategory, setSelectedCategory] = useState("New");
 
   const [videos, setVideos] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     async function fetchFromApi() {
@@ -28,9 +29,13 @@ const Feed = () => {
       };
 
       try {
+        setIsLoading(true)
+       
         const response = await axios.request(options);
+        setIsLoading(false)
         setVideos(response.data.contents);
       } catch (error) {
+        setIsLoading(false)
         if (error.response.status === 429) {
           toast.error("Api calling limit exceeded 😔");
         }
@@ -59,7 +64,7 @@ const Feed = () => {
       </Box>
 
       <Box sx={{ p: 0, height: { xs: "auto", sm: "90vh", width: "100%" } }}>
-        <Video videos={videos} />
+        <Video isLoading={isLoading}  videos={videos} />
       </Box>
     </Stack>
   );

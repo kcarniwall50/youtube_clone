@@ -6,6 +6,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import SearchBar from "./SearchBar";
 
 const Navbar = () => {
+  console.log("rendered")
   return (
     <Stack
       direction="row"

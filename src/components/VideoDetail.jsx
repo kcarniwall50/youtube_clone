@@ -7,15 +7,19 @@ import { Box, Typography } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Loader from "../utils/Loader/Loader";
 
 const url = process.env.REACT_APP_URL;
 
 const VideoDetail = () => {
+  console.log("rendered")
   const navigate = useNavigate();
   const [videoDetail, setVideoDetail] = useState(null);
   const [videoComments, setVideoComments] = useState([]);
   const [videos, setVideos] = useState([]);
   const { id } = useParams();
+
+  const [isLoading, setIsLoading] = useState(false)
 
   function nFormatter(num, digits) {
     const lookup = [
@@ -101,9 +105,12 @@ const VideoDetail = () => {
       };
 
       try {
+        setIsLoading(true)
         const response = await axios.request(options);
+        setIsLoading(false)
         setVideoDetail(response.data);
       } catch (error) {
+        setIsLoading(false)
         if (error.response.status === 429) {
           toast.error("Api calling limit exceeded 😔");
         }
@@ -156,9 +163,12 @@ const VideoDetail = () => {
       };
 
       try {
+        setIsLoading(true)
         const response = await axios.request(options);
+        setIsLoading(false)
         setVideos(response.data.contents);
       } catch (error) {
+        setIsLoading(false)
         if (error.response.status === 429) {
           toast.error("Api calling limit exceeded 😔");
         }
@@ -172,6 +182,8 @@ const VideoDetail = () => {
   }, [id]);
 
   return (
+    <>
+    {isLoading && <Loader/>}
     <Box
       sx={{
         width: "100%",
@@ -465,6 +477,7 @@ const VideoDetail = () => {
           ))}
       </div>
     </Box>
+    </>
   );
 };
 

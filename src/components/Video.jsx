@@ -7,9 +7,12 @@ import {
   demoThumbnailUrl,
   demoVideoTitle,
 } from "../utils/constants";
+import Loader from "../utils/Loader/Loader";
 
-const Video = ({ videos }) => {
+const Video = ({isLoading, videos, channelTitle }) => {
   const navigate = useNavigate();
+  console.log("rendered")
+
 
   function nFormatter(num, digits) {
     const lookup = [
@@ -53,6 +56,8 @@ const Video = ({ videos }) => {
   }
 
   return (
+    <>
+    {isLoading && <Loader/>}
     <Stack
       sx={{
         color: "white",
@@ -151,17 +156,22 @@ const Video = ({ videos }) => {
                 }}
               >
                 <span
+                
+                 
                   onClick={() => {
+                    !channelTitle && 
                     navigate(`/channel/${video?.video?.author?.channelId}`);
                   }}
+
+                
                   style={{
-                    cursor: "pointer",
+                    cursor: !channelTitle ? "pointer":'none',
                     display: "flex",
                     alignItems: "center",
                     fontSize: "13px",
                   }}
                 >
-                  {video?.video?.author?.title || demoChannelTitle}{" "}
+                  {video?.video?.author?.title || channelTitle || demoChannelTitle}{" "}
                   <CheckCircleIcon
                     sx={{ fontSize: "13px", color: "#677381", ml: "5px" }}
                   />
@@ -178,6 +188,7 @@ const Video = ({ videos }) => {
           </Box>
         ))}
     </Stack>
+    </>
   );
 };
 
